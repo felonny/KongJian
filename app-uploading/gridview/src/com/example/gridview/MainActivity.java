@@ -16,15 +16,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 import android.os.Build;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements OnItemClickListener{
 
 	private GridView gridView;
 	private SimpleAdapter adapter;
 	private List<Map<String, Object>> dataList;
+	public String[] iconName = { "联系人", "日历", "照相机", "时钟", "游戏", "短信", "铃声", "设置",
+			"语音", "天气", "浏览器", "Youtube" }; ;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,7 @@ public class MainActivity extends Activity {
         dataList=new ArrayList<Map<String,Object>>();
         adapter=new SimpleAdapter(this, getData(), R.layout.item, new String[]{"pic","name"}, new int[]{R.id.pic,R.id.name});
         gridView.setAdapter(adapter);
+        gridView.setOnItemClickListener(this);
 	}
 
 	private List<Map<String, Object>> getData() {
@@ -44,8 +50,7 @@ public class MainActivity extends Activity {
 				R.drawable.messenger, R.drawable.ringtone, R.drawable.settings,
 				R.drawable.speech_balloon, R.drawable.weather,
 				R.drawable.world, R.drawable.youtube };
-		String[] iconName = { "联系人", "日历", "照相机", "时钟", "游戏", "短信", "铃声", "设置",
-				"语音", "天气", "浏览器", "Youtube" };
+		 
 		for (int i = 0; i < drawable.length; i++) {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("pic", drawable[i]);
@@ -55,4 +60,12 @@ public class MainActivity extends Activity {
 		Log.i("Main", "size="+dataList.size());
 		return dataList;
 	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+		// TODO Auto-generated method stub
+		Toast.makeText(MainActivity.this, iconName[position], Toast.LENGTH_SHORT).show();
+	}
+
+
 }
